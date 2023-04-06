@@ -7,16 +7,17 @@ const CompanySearchResults = () => {
   const [jobs, setJobs] = useState([]);
   const params = useParams();
 
-  const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?company=";
+  const baseEndpoint =
+    "https://strive-benchmark.herokuapp.com/api/jobs?company=";
 
   useEffect(() => {
     getJobs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getJobs = async () => {
     try {
-      const response = await fetch(baseEndpoint + params.company);
+      const response = await fetch(baseEndpoint + params.companyName);
       if (response.ok) {
         const { data } = await response.json();
         setJobs(data);
@@ -29,11 +30,14 @@ const CompanySearchResults = () => {
   };
 
   return (
-    <Container>
+    <Container
+      fluid
+      className="bg-secondary p-5"
+      style={{ minHeight: "100vh" }}
+    >
       <Row>
-        <Col className="my-3">
-          <h1 className="display-4">Job posting for: {params.company}</h1>
-          {jobs.map(jobData => (
+        <Col>
+          {jobs.map((jobData) => (
             <Job key={jobData._id} data={jobData} />
           ))}
         </Col>
